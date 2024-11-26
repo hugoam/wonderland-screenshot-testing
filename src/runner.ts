@@ -174,7 +174,7 @@ export class ScreenshotRunner {
 
         const args = ['--no-sandbox', '--use-gl=angle', '--ignore-gpu-blocklist'];
         if(process.platform === 'linux') {
-            args.push(...['--enable-unsafe-webgpu', '--enable-features=Vulkan']);
+            args.push(...['--enable-gpu']);
         }
 
         console.log('Launch browser with args:', args);
