@@ -174,7 +174,13 @@ export class ScreenshotRunner {
 
         const args = ['--no-sandbox', '--ignore-gpu-blocklist'];
         if (process.platform === 'linux') {
-            args.push(...['--enable-gpu', '--enable-unsafe-webgpu', '--enable-features=Vulkan']);
+            args.push(
+                '--enable-gpu',
+                '--use-angle=vulkan',
+                '--enable-features=Vulkan',
+                '--disable-vulkan-surface',
+                '--enable-unsafe-webgpu'
+            );
         }
 
         console.log('Launch browser with args:', args);
@@ -298,7 +304,7 @@ export class ScreenshotRunner {
      * @param contextsCount Number of browser contexts to use.
      * @returns Array of screenshots **per** project.
      */
-    private async _capture(browser: Browser, contextsCount: number, config : Config) {
+    private async _capture(browser: Browser, contextsCount: number, config: Config) {
         const {projects} = this._config;
 
         console.log(`\n📷 Capturing scenarios for ${projects.length} project(s)...`);
