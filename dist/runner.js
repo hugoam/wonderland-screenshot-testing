@@ -140,7 +140,7 @@ export class ScreenshotRunner {
         server.listen(config.port);
         const args = ['--no-sandbox', '--ignore-gpu-blocklist'];
         if (process.platform === 'linux') {
-            args.push('--enable-gpu', '--use-angle=vulkan', '--enable-features=Vulkan', '--disable-vulkan-surface', '--enable-unsafe-webgpu');
+            args.push('--enable-gpu', '--enable-features=Vulkan', '--disable-vulkan-surface', '--enable-unsafe-webgpu');
         }
         console.log('Launch browser with args:', args);
         const headless = !config.watch;

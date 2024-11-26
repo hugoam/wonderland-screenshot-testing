@@ -176,7 +176,6 @@ export class ScreenshotRunner {
         if (process.platform === 'linux') {
             args.push(
                 '--enable-gpu',
-                '--use-angle=vulkan',
                 '--enable-features=Vulkan',
                 '--disable-vulkan-surface',
                 '--enable-unsafe-webgpu'
