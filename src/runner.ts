@@ -179,7 +179,7 @@ export class ScreenshotRunner {
 
         console.log('Launch browser with args:', args);
 
-        const headless = !config.watch;
+        const headless = config.watch ? false : 'new';
         const browser = await puppeteerLauncher({
             headless,
             /* Prefer chrome since canary rendering isn't always working */
