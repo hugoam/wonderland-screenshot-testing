@@ -203,7 +203,7 @@ export class ScreenshotRunner {
         await page.pdf({path: join(config.output ?? '.', 'gpu.pdf')});
 
         /* Start capturing screenshots for each project */
-        const screenshotsPending = this._capture(browser, contexts);
+        const screenshotsPending = this._capture(browser, contexts, config);
 
         /* While we could wait simultaneously for screenshots and references, loading the pngs
          * should be must faster and be done by now anyway. */
@@ -298,7 +298,7 @@ export class ScreenshotRunner {
      * @param contextsCount Number of browser contexts to use.
      * @returns Array of screenshots **per** project.
      */
-    private async _capture(browser: Browser, contextsCount: number) {
+    private async _capture(browser: Browser, contextsCount: number, config : Config) {
         const {projects} = this._config;
 
         console.log(`\n📷 Capturing scenarios for ${projects.length} project(s)...`);
@@ -307,6 +307,18 @@ export class ScreenshotRunner {
                 .fill(null)
                 .map((_) => browser.createBrowserContext())
         );
+
+        for (let i = 0; i < contexts.length; ++i) {
+            const context = contexts[i];
+            const page = await context!.newPage();
+            await page.goto('chrome://gpu');
+
+            /* Log the WebGPU status or save the GPU report as PDF */
+            const txt = await page.waitForSelector('text/WebGPU');
+            const status = await txt!.evaluate((g) => g.parentElement!.textContent);
+            console.log(status);
+            await page.pdf({path: join(config.output ?? '.', `gpu${i}.pdf`)});
+        }
 
         const result: Promise<(Uint8Array | Error)[]>[] = Array.from(projects, () => null!);
 
