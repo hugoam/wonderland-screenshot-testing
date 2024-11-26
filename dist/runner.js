@@ -159,7 +159,7 @@ export class ScreenshotRunner {
         await page.goto('chrome://gpu');
         /* Log the WebGPU status or save the GPU report as PDF */
         const txt = await page.waitForSelector('text/WebGPU');
-        const status = await txt.evaluate(g => g.parentElement.textContent);
+        const status = await txt.evaluate((g) => g.parentElement.textContent);
         console.log(status);
         await page.pdf({ path: join(config.output ?? '.', 'gpu.pdf') });
         /* Start capturing screenshots for each project */
