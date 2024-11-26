@@ -173,7 +173,7 @@ export class ScreenshotRunner {
         server.listen(config.port);
 
         const args = ['--no-sandbox', '--ignore-gpu-blocklist'];
-        if(process.platform === 'linux') {
+        if (process.platform === 'linux') {
             args.push(...['--enable-gpu']);
         }
 
@@ -192,6 +192,15 @@ export class ScreenshotRunner {
 
         const version = await browser.version();
         console.log('Browser version:', version);
+
+        const page = await browser.newPage();
+        await page.goto('chrome://gpu');
+
+        /* Log the WebGPU status or save the GPU report as PDF */
+        const txt = await page.waitForSelector('text/WebGPU');
+        const status = await txt!.evaluate((g) => g.parentElement!.textContent);
+        console.log(status);
+        await page.pdf({path: join(config.output ?? '.', 'gpu.pdf')});
 
         /* Start capturing screenshots for each project */
         const screenshotsPending = this._capture(browser, contexts);
