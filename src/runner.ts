@@ -180,7 +180,7 @@ export class ScreenshotRunner {
             devtools: !headless,
             timeout: !config.watch ? 30000 : 0,
             waitForInitialPage: true,
-            args: ['--no-sandbox', '--use-gl=angle', '--ignore-gpu-blocklist'],
+            args: ['--no-sandbox', '--use-gl=angle', '--enable-unsafe-webgpu', '--enable-features=Vulkan', '--ignore-gpu-blocklist'],
         });
 
         /* Start capturing screenshots for each project */
