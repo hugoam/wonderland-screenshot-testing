@@ -177,7 +177,6 @@ export class ScreenshotRunner {
             args.push(
                 '--enable-gpu',
                 '--enable-features=Vulkan',
-                '--disable-vulkan-surface',
                 '--enable-unsafe-webgpu'
             );
         }
